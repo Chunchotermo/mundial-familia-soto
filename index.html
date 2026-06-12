@@ -414,7 +414,7 @@ const FIFA_SCHEDULE={
   'GL-0':'2026-06-17T20:00:00Z','GL-1':'2026-06-17T23:00:00Z','GL-2':'2026-06-23T20:00:00Z','GL-3':'2026-06-24T03:00:00Z','GL-4':'2026-06-27T19:00:00Z','GL-5':'2026-06-27T19:00:00Z'
 };
 const FIRST_KICKOFF=new Date('2026-06-11T19:00:00Z').getTime(); // cierre countdown especiales
-const SPECIALS_DEADLINE=new Date('2026-06-20T06:00:00Z').getTime(); // 20 jun medianoche hora MX
+const SPECIALS_DEADLINE=new Date('2026-06-20T04:00:00Z').getTime(); // 20 jun 00:00 hora Chile
 const ADMIN_PIN='2323',CLOSE_MINS=5;
 
 /* ===== STATE ===== */
@@ -1005,9 +1005,9 @@ function matchRow(m,mode){
     badgePlayed(badge,m);
     const dtWrap=el('div');dtWrap.style.cssText='display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)';dtWrap.innerHTML='<span>🕐</span>';
     const dtInp=el('input','inp-dt');dtInp.type='datetime-local';
-    dtInp.value=m.kickoff?new Date(m.kickoff).toLocaleString('sv-SE',{timeZone:'America/Mexico_City'}).slice(0,16):'';
+    dtInp.value=m.kickoff?new Date(m.kickoff).toLocaleString('sv-SE',{timeZone:'America/Santiago'}).slice(0,16):'';
     dtInp.onchange=async()=>{
-      let ko=null;if(dtInp.value){const local=new Date(dtInp.value+':00');ko=new Date(local.getTime()-local.getTimezoneOffset()*60000).toISOString();}
+      let ko=null;if(dtInp.value){ko=new Date(dtInp.value+':00-04:00').toISOString();}
       await SB.from('matches').update({kickoff:ko}).eq('id',m.id);await loadAndRender();toast('Hora guardada ✓');
     };
     dtWrap.appendChild(dtInp);extra.appendChild(dtWrap);
